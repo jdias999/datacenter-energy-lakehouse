@@ -25,7 +25,7 @@ Durante a exploração inicial das fontes de dados, percebi que o catálogo do *
 ## Arquitetura e Etapas do Projeto
 
 
-(imgs/ADF.png)
+![1](imgs/ADF.png)
 
 ### 1. Ingestão de Dados e Fontes (APIs REST)
 
@@ -50,7 +50,7 @@ Porém, apenas usar o Auto Loader na pasta não resolveria o problema de duplici
 3. O retorno da API é salvo como JSON na Landing Zone (Volume no ADLS Gen2).
 4. O **Auto Loader** lê apenas os arquivos ainda não processados e grava na tabela Delta Bronze, utilizando `inferColumnTypes` e `schemaLocation` para garantir **Schema Evolution** (evitando que a pipeline quebre caso alguma API adicione colunas novas no futuro), além de registrar um timestamp de processamento.
 
-> [INSERIR IMAGEM 2 AQUI: Print do código da camada Bronze com a função de Watermark e configuração do Auto Loader]
+![2](imgs/autoloader.png)
 
 ---
 
@@ -58,7 +58,7 @@ Porém, apenas usar o Auto Loader na pasta não resolveria o problema de duplici
 
 Antes de construir os scripts definitivos da camada Silver, criei notebooks dedicados de **EDA (Exploratory Data Analysis)** para inspecionar a qualidade dos dados e definir as regras de negócio:
 
-> [INSERIR IMAGEM 3 AQUI: Print do notebook de EDA mostrando a validação de datas ou checagem de nulos]
+![3](imgs/eda_datas.png)
 
 * **Data Centers:** Identifiquei e removi registros duplicados, apliquei `trim()` para limpar espaços em branco nos nomes e tratei valores nulos na coluna `region` (a única coluna que apresentou nulos após checagem completa da tabela).
 * **Ember (Tratamento de Nulos e Validação de Gaps Temporais):**
@@ -69,7 +69,7 @@ Antes de construir os scripts definitivos da camada Silver, criei notebooks dedi
   * Em cenários onde a API atualiza um dado histórico já existente, a tabela Bronze passa a ter duas linhas para a mesma chave de negócio (ex: dois registros para o Brasil no mesmo mês com valores revisados). Se enviássemos ambas diretamente para o `MERGE` na Silver, o Delta Lake retornaria erro de conflito.
   * Para resolver isso, apliquei uma Window Function (`ROW_NUMBER()`) particionada pela chave da tabela e ordenada pelo timestamp de processamento na Bronze, mantendo apenas o registro mais recente em uma view temporária antes de executar o `MERGE INTO` na tabela Silver.
 
-> [INSERIR IMAGEM 4 AQUI: Print do código da camada Silver mostrando o tratamento com ROW_NUMBER e o MERGE INTO]
+![4](imgs/silver.png)
 
 ---
 
@@ -81,7 +81,7 @@ Um detalhe técnico importante descoberto nessa etapa foi o comportamento *case-
 
 Como a base de Data Centers trazia apenas o código `ISO2`, a Ember trazia `ISO3` e o World Bank trazia ambos, construí a dimensão `dim_location` contendo os dois padrões para permitir o relacionamento entre todas as frentes do projeto. Nas tabelas fato, as chaves primárias foram geradas concatenando as colunas que compõem a granularidade do dado e aplicando hash `MD5`.
 
-> [INSERIR IMAGEM 5 AQUI: Diagrama da Modelagem Dimensional da Camada Gold]
+![5](imgs/modelagem_center.png)
 
 #### Estrutura das Tabelas Gold
 
