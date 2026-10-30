@@ -115,7 +115,7 @@ Após validar a pipeline inicialmente no Databricks Free Edition, migrei a arqui
 3. **Orquestração no Azure Data Factory (ADF):** Configurei o *Linked Service* autenticando via token do Databricks e montei a pipeline executando os notebooks de ingestão, transformação Silver e carga Gold (Fatos, Dimensões e Views) de forma paralela na etapa de extração e tratamento.
 4. **Resolução de Problema com Clusters na Azure:** Nas primeiras execuções pelo ADF, o provisionamento do cluster ficava travado por vários minutos sem encontrar máquinas virtuais disponíveis na região do Brasil. Mesmo testando *Single Node* e clusters de desenvolvimento pré-iniciados, a limitação regional persistia. Resolvi o problema recriando o Workspace do Azure Databricks em uma região dos EUA, onde as VMs subiram rapidamente e a pipeline rodou por completo.
 
-![6](imgs/azoure_resources.png)
+![6](imgs/azure_resources.png)
 
 ---
 
