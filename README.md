@@ -115,7 +115,7 @@ Após validar a pipeline inicialmente no Databricks Free Edition, migrei a arqui
 3. **Orquestração no Azure Data Factory (ADF):** Configurei o *Linked Service* autenticando via token do Databricks e montei a pipeline executando os notebooks de ingestão, transformação Silver e carga Gold (Fatos, Dimensões e Views) de forma paralela na etapa de extração e tratamento.
 4. **Resolução de Problema com Clusters na Azure:** Nas primeiras execuções pelo ADF, o provisionamento do cluster ficava travado por vários minutos sem encontrar máquinas virtuais disponíveis na região do Brasil. Mesmo testando *Single Node* e clusters de desenvolvimento pré-iniciados, a limitação regional persistia. Resolvi o problema recriando o Workspace do Azure Databricks em uma região dos EUA, onde as VMs subiram rapidamente e a pipeline rodou por completo.
 
-> [INSERIR IMAGEM 6 AQUI: Print do Catalog Explorer / External Locations ou da execução concluída com sucesso no ADF]
+![6](imgs/azoure_resources.png)
 
 ---
 
@@ -127,7 +127,7 @@ Para variar em relação ao uso do Power BI (que já havia utilizado em outro pr
 
 ### Análise 1: PIB per Capita vs. Emissões de Carbono (`vw_pib_vs_emissoes`)
 
-> [INSERIR IMAGEM 7 AQUI: Gráfico 1 - Evolução do PIB per Capita vs. Evolução das Emissões de Carbono]
+![8](imgs/pib_emissao.png)
 
 Foi possível observar o efeito de desacoplamento econômico em países desenvolvidos como Alemanha, França, Itália e Canadá, que conseguiram aumentar seu PIB per capita (principalmente pós-2020) enquanto reduziram ou estabilizaram o total de emissões. Além disso, Brasil e França destacam-se positivamente por manterem as menores curvas de emissão (graças às matrizes renovável/hidrelétrica e nuclear), enquanto a Índia apresenta o maior volume de emissões mesmo com o menor PIB per capita do grupo, refletindo uma industrialização ainda muito dependente do carvão.
 
@@ -135,7 +135,7 @@ Foi possível observar o efeito de desacoplamento econômico em países desenvol
 
 ### Análise 2: Acesso à Eletricidade vs. Demanda Total em TWh (`vw_acesso_vs_demanda`)
 
-> [INSERIR IMAGEM 8 AQUI: Gráfico 2 - Acesso à Eletricidade (%) vs. Demanda Total de Eletricidade (TWh)]
+![9](imgs/eletricidade_demanda.png)
 
 O cruzamento confirma a hipótese levantada na modelagem: ter uma taxa alta de acesso à rede elétrica não significa necessariamente ter alta demanda de energia. Enquanto países como Nigéria (~62%) e África do Sul (~90%) ainda lutam para universalizar o acesso básico, países que já atingiram ou beiram os 100% (como Brasil e Índia) possuem um consumo absoluto muito inferior ao das potências industriais, demonstrando o impacto do poder aquisitivo e da atividade industrial no consumo per capita. No topo, enquanto os EUA mantêm uma demanda estável na casa dos 4.200 TWh, a China cresce de forma acelerada, chegando perto dos 10.000 TWh em 2024.
 
@@ -143,7 +143,7 @@ O cruzamento confirma a hipótese levantada na modelagem: ter uma taxa alta de a
 
 ### Análise 3: Investimento Estrangeiro Direto (FDI) vs. Intensidade de Emissões (`vw_fdi_vs_emissoes`)
 
-> [INSERIR IMAGEM 9 AQUI: Gráfico 3 - Evolução do FDI (% PIB) vs. Dispersão FDI x Intensidade de Emissões]
+![10](imgs/investimento_fdi.png)
 
 Apesar da forte oscilação histórica do FDI entre 2018 e 2024, o gráfico de dispersão mostra que Brasil e França formam um agrupamento isolado e estratégico: são os países que combinam a menor intensidade média de emissões (< 180) com as maiores taxas relativas de entrada de capital estrangeiro (frequentemente entre 2,5% e 4,0% do PIB). Já economias mais intensivas em carbono, como EUA, Alemanha, Japão (350–550) e Índia (~700), operam com percentuais menores de FDI em relação ao PIB, mostrando a atratividade de matrizes limpas para investimentos externos.
 
@@ -151,7 +151,7 @@ Apesar da forte oscilação histórica do FDI entre 2018 e 2024, o gráfico de d
 
 ### Análise 4: Geografia dos Data Centers vs. Matriz Energética (`vw_data_center_vs_emissoes`)
 
-> [INSERIR IMAGEM 10 AQUI: Gráfico 4 - Top 10 Países em Quantidade de Data Centers vs. Intensidade de Emissões da Matriz]
+![11](imgs/qntd_data_centers.png)
 
 Os Estados Unidos lideram de forma isolada com mais de 1.600 data centers catalogados em 2024, seguidos por Alemanha e Brasil. Porém, ao olhar o gráfico ao lado, percebe-se que os dois primeiros colocados (EUA e Alemanha) ainda operam com matrizes de intensidade carbônica moderada/alta (~350–380), enquanto países do Top 10 como Índia e Austrália passam de 550. Nesse cenário, o Brasil (3º lugar em quantidade de data centers) e a França (5º lugar) despontam como os melhores polos globais para expansão sustentável de infraestrutura de dados e IA, unindo volume de data centers já consolidado com energia limpa.
 
